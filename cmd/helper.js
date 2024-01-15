@@ -29,8 +29,29 @@ function normalizeUrl(path)
    newurl=newurl.slice(0,-1)
   return newurl
 }
+async function crawlPage(url)
+{
+  try{
+    const page =await fetch(url)
+    if(page.status>399)
+    {
+    console.log("An Error Ocurred "+page.status)
+    return
+    }
+    const contentType = page.headers.get('content-type')
+    if (!contentType.includes('text/html')){
+      console.log(`Got non-html response: ${contentType}`)
+      return
+    }
+    console.log(await page.text())
+  }
+  catch(e){
+   console.log(e.message)
+  }
+}
 module.exports = {
     normalizeUrl,
-    getURLsFromHTML
+    getURLsFromHTML,
+    crawlPage
   }
   
