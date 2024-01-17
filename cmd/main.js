@@ -1,4 +1,4 @@
-const {crawlPage}=require('./helper.js')
+const {crawlPage,printReport}=require('./helper.js')
 async function main(){
     if (process.argv.length < 3){
       console.log('no website provided')
@@ -12,7 +12,7 @@ async function main(){
     console.log(`processing: ${baseURL}...`)
     const pages = await crawlPage(baseURL, baseURL, {})
 
-  console.log(pages)
+  printReport(pages)
     
   }
   
