@@ -1,5 +1,5 @@
 const { JSDOM } = require('jsdom')
-
+const fs = require('fs');
 function getURLsFromHTML(htmlBody, baseURL){
   const urls = []
   const dom = new JSDOM(htmlBody)
@@ -84,15 +84,20 @@ async function crawlPage(baseURL, currentURL, pages){
 }
 // printReport takes a dictionary of pages and prints them
 // to the console in a human-friendly way
+// and save them in a csv file
 function printReport(pages){
   console.log('==========')
   console.log('REPORT')
   console.log('==========')
   const sortedPages = sortPages(pages)
+  let file= fs.createWriteStream('Report.csv')
+  
+  file.write("url,frequency\n")
   for (const sortedPage of sortedPages){
     const url = sortedPage[0]
     const count = sortedPage[1]
     console.log(`Found ${count} internal links to ${url}`)
+    file.write(`${url},${count}\n`)
   }
 }
 
